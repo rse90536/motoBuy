@@ -11,7 +11,7 @@ class UserRepository {
     Response response;
     try {
       response = await SharedService.dio
-          .post("/login", data: {"Account": account, "Password": password});
+          .post("/login", data: {"Account": "test90536", "Password": "test90536"});
       if (response.statusCode == HttpStatus.ok) {
         SharedData.token = response.toString();
         return true;

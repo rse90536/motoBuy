@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motobuy/bloc/login_bloc/login_bloc.dart';
+import 'package:motobuy/ui/screens/home/home_view.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
@@ -15,8 +16,7 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  bool get isPopulated =>
-      _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
+  bool get isPopulated => _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
 
   bool isButtonEnabled(LoginState state) {
     return state.isFormValid && isPopulated && !state.isSubmitting;
@@ -86,7 +86,13 @@ class _LoginFormState extends State<LoginForm> {
                 ),
                 backgroundColor: Color(0xffffae88),
               ),
-            );          debugPrint("state isSuccess");
+            );
+          debugPrint("state isSuccess");
+          Navigator.pushReplacementNamed(
+            context,
+            HomeView.routeName,
+          );
+
           // BlocProvider.of<AuthenticationBloc>(context).add(
           //   AuthenticationLoggedIn(),
           // );
@@ -128,13 +134,13 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                   RaisedButton(
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                        side: BorderSide(color: Colors.blueAccent)),
+                        borderRadius: BorderRadius.circular(18.0), side: BorderSide(color: Colors.blueAccent)),
                     color: Colors.white,
                     highlightColor: Colors.blueAccent,
                     child: Text("登入"),
                     onPressed: () {
-                      if (isButtonEnabled(state)) _onFormSubmitted();
+//                      if (isButtonEnabled(state)) 判斷是否空白
+                      _onFormSubmitted();
                     },
                   ),
                 ],
@@ -162,7 +168,6 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void _onFormSubmitted() {
-    _loginBloc.add(LoginWithCredentialsPressed(
-        email: _emailController.text, password: _passwordController.text));
+    _loginBloc.add(LoginWithCredentialsPressed(email: _emailController.text, password: _passwordController.text));
   }
 }

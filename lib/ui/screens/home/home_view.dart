@@ -5,6 +5,7 @@ import 'package:motobuy/bloc/car_list_bloc/car_list_bloc.dart';
 import 'package:motobuy/repositories/car_repositories.dart';
 
 class HomeView extends StatefulWidget {
+  static const routeName = '/homeView';
   const HomeView({
     Key key,
   }) : super(key: key);

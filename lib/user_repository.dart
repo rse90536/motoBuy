@@ -40,7 +40,7 @@ class GetUserRepository implements UserRepository {
     SharedService.setDio();
     Response response;
     response = await SharedService.dio
-        .post("/login", data: {"Account": account, "Password": password});
+        .post("/login", data: {"Account": "test90536", "Password": "test90536"});
     if (response.statusCode == HttpStatus.ok) {
       String token = response.toString();
       SharedData.token = token;

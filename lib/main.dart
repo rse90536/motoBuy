@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:motobuy/ui/main_body.dart';
 import 'package:motobuy/ui/screens/home/home_view.dart';
+import 'package:motobuy/ui/screens/login/login_view.dart';
+import 'package:motobuy/ui/screens/login2/login_view.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,7 +31,26 @@ class MyApp extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomeView(),
+        onGenerateRoute: (settings){
+          if(settings.name =="/"){
+            return MaterialPageRoute(builder: (BuildContext context) {
+              return LoginView();
+            });
+
+          }else if(settings.name =="/homeView"){
+            return PageRouteBuilder(
+              transitionDuration: Duration(milliseconds: 800),
+              pageBuilder: (BuildContext context, Animation animation, Animation secondaryAnimation) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: HomeView(), //路由B
+                );
+              },
+            );
+          }else{
+            return null;
+          }
+        },
       // MainBody(),
     );
   }

@@ -11,39 +11,41 @@ class LoginView2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  BlocProvider<LoginBloc>(
-      create: (context) => LoginBloc(),
-      child: Stack(
-        children: [
-          CurvedWidget(
-            child: Container(
-              padding: const EdgeInsets.only(top: 100, left: 50),
-              width: double.infinity,
-              height: 300,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Colors.black, Colors.black.withOpacity(0.4)],
+    return  Scaffold(
+      body: BlocProvider<LoginBloc>(
+        create: (context) => LoginBloc(),
+        child: Stack(
+          children: [
+            CurvedWidget(
+              child: Container(
+                padding: const EdgeInsets.only(top: 100, left: 50),
+                width: double.infinity,
+                height: 300,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.black, Colors.black.withOpacity(0.4)],
+                  ),
                 ),
-              ),
-              child: Text(
-                'Moto 交易平台',
-                style: TextStyle(
-                    fontSize: 40,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700
+                child: Text(
+                  'Moto 交易平台',
+                  style: TextStyle(
+                      fontSize: 40,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700
+                  ),
                 ),
               ),
             ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 230),
-            child: LoginForm2(),
-          )
-        ],
-      ),
+            Container(
+              margin: const EdgeInsets.only(top: 230),
+              child: LoginForm2(),
+            )
+          ],
+        ),
 
+      ),
     );
     //   GestureDetector(
     //   behavior: HitTestBehavior.translucent,
