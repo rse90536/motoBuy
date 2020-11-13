@@ -2,50 +2,69 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motobuy/bloc/login_bloc/login_bloc.dart';
-import 'package:motobuy/ui/widget/curved_widget.dart';
 
 import 'login_form.dart';
 
 class LoginView extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    final mediaQuerySize = MediaQuery.of(context).size;
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: BlocProvider<LoginBloc>(
-        create: (context) => LoginBloc(),
-        child: Stack(
-          children: [
-            CurvedWidget(
-              child: Container(
-                padding: const EdgeInsets.only(top: 100, left: 50),
-                width: double.infinity,
-                height: 300,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Colors.black, Colors.black.withOpacity(0.4)],
+          create: (context) => LoginBloc(),
+          child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () {
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+            child: Stack(
+              children: [
+                Container(
+                  width: mediaQuerySize.width,
+                  height: mediaQuerySize.height,
+                  child: Image.asset(
+                    "assets/login99.jpeg",
+                    fit: BoxFit.fill,
                   ),
                 ),
-                child: Text(
-                  'Moto 交易平台',
-                  style: TextStyle(
-                      fontSize: 40,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700
-                  ),
+                Container(
+                  width: mediaQuerySize.width,
+                  height: mediaQuerySize.height,
+                  color: Color.fromRGBO(0, 0, 0, 0.3),
                 ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 230),
-              child: LoginForm(),
-            )
-          ],
-        ),
+                Positioned(
+                  top: mediaQuerySize.height/2.5,
+                  left: 0,
+                  width: mediaQuerySize.width-10,
+                  child: LoginForm(),
+                ),
+//            CurvedWidget(
+//              child: Container(
+//                padding: const EdgeInsets.only(top: 100, left: 50),
+//                width: double.infinity,
+//                height: 300,
+//                decoration: BoxDecoration(
+//                  gradient: LinearGradient(
+//                    begin: Alignment.topCenter,
+//                    end: Alignment.bottomCenter,
+//                    colors: [Colors.black, Colors.black.withOpacity(0.4)],
+//                  ),
+//                ),
+//                child: Text(
+//                  'Moto 交易平台',
+//                  style: TextStyle(
+//                      fontSize: 40,
+//                      color: Colors.white,
+//                      fontWeight: FontWeight.w700
+//                  ),
+//                ),
+//              ),
+//            ),
 
-      ),
+              ],
+            ),
+          )),
     );
     //   GestureDetector(
     //   behavior: HitTestBehavior.translucent,

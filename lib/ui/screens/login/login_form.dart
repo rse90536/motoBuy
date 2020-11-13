@@ -15,6 +15,7 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+   Size _size ;
 
   bool get isPopulated => _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
 
@@ -34,6 +35,8 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    _size = MediaQuery.of(context).size;
+
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.isFailure) {
@@ -88,10 +91,13 @@ class _LoginFormState extends State<LoginForm> {
               ),
             );
           debugPrint("state isSuccess");
-          Navigator.pushReplacementNamed(
-            context,
-            HomeView.routeName,
-          );
+          Future.delayed(Duration(seconds: 1),(){
+            Navigator.pushReplacementNamed(
+              context,
+              HomeView.routeName,
+            );
+          });
+
 
           // BlocProvider.of<AuthenticationBloc>(context).add(
           //   AuthenticationLoggedIn(),
@@ -100,53 +106,195 @@ class _LoginFormState extends State<LoginForm> {
       },
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
-          return Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Form(
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.email),
-                      labelText: "Account",
+          if (state.isSubmitting|| state.isSuccess) {
+            return Container();
+          }else {
+            return Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Form(
+                child: Column(
+
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20,),
+                      width: _size.width*0.8,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(29),
+                      ),
+                      child: TextFormField(
+                        controller: _emailController,
+                        cursorColor: Colors.white,
+                        decoration: InputDecoration(
+                          icon: Icon(
+                            Icons.email,
+                            color: Colors.white,
+                          ),
+                          labelText: "Account",
+                          labelStyle: TextStyle(color: Colors.white, fontSize: 15),
+                          border: InputBorder.none,
+                        ),
+                        style: TextStyle(color: Colors.white, fontSize: 15),
+                        // keyboardType: TextInputType.emailAddress,
+                        autocorrect: false,
+                        validator: (_) {
+                          return !state.isEmailValid ? 'Invalid Email' : null;
+                        },
+                      ),
                     ),
-                    // keyboardType: TextInputType.emailAddress,
-                    autocorrect: false,
-                    validator: (_) {
-                      return !state.isEmailValid ? 'Invalid Email' : null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.lock),
-                      labelText: "Password",
+                    SizedBox(
+                      height: 10,
                     ),
-                    obscureText: true,
-                    autocorrect: false,
-                    validator: (_) {
-                      return !state.isPasswordValid ? 'Invalid Password' : null;
-                    },
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  RaisedButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0), side: BorderSide(color: Colors.blueAccent)),
-                    color: Colors.white,
-                    highlightColor: Colors.blueAccent,
-                    child: Text("登入"),
-                    onPressed: () {
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20,),
+                      width: _size.width*0.8,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(29),
+                      ),
+                      child:TextFormField(
+                        controller: _passwordController,
+                        cursorColor: Colors.white,
+                        decoration: InputDecoration(
+                          icon: Icon(Icons.lock,color: Colors.white,
+                          ),
+                          labelText: "Password",
+                          labelStyle: TextStyle(color: Colors.white, fontSize: 15),
+                          border: InputBorder.none,
+                        ),
+                        style: TextStyle(color: Colors.white, fontSize: 15),
+                        obscureText: true,
+                        autocorrect: false,
+                        validator: (_) {
+                          return !state.isPasswordValid ? 'Invalid Password' : null;
+                        },
+                      ),
+                    ),
+
+//                  TextFormField(
+//                    controller: _passwordController,
+//                    decoration: InputDecoration(
+//                      icon: Icon(Icons.lock),
+//                      labelText: "Password",
+//                    ),
+//                    obscureText: true,
+//                    autocorrect: false,
+//                    validator: (_) {
+//                      return !state.isPasswordValid ? 'Invalid Password' : null;
+//                    },
+//                  ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    RaisedButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0), ),
+                      color: Colors.black,
+                      highlightColor: Colors.red,
+                      child: Text("Login",style: TextStyle(color: Colors.white, fontSize: 15),),
+                      onPressed: () {
 //                      if (isButtonEnabled(state)) 判斷是否空白
-                      _onFormSubmitted();
-                    },
-                  ),
-                ],
+                        _onFormSubmitted();
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
+            );
+          }
+
+//          return Padding(
+//            padding: const EdgeInsets.all(20.0),
+//            child: Form(
+//              child: Column(
+//
+//                children: <Widget>[
+//                  Container(
+//                    padding: EdgeInsets.symmetric(horizontal: 20,),
+//                    width: _size.width*0.8,
+//                    decoration: BoxDecoration(
+//                      color: Colors.black,
+//                      borderRadius: BorderRadius.circular(29),
+//                    ),
+//                    child: TextFormField(
+//                      controller: _emailController,
+//                      cursorColor: Colors.white,
+//                      decoration: InputDecoration(
+//                        icon: Icon(
+//                          Icons.email,
+//                          color: Colors.white,
+//                        ),
+//                        labelText: "Account",
+//                        labelStyle: TextStyle(color: Colors.white, fontSize: 15),
+//                        border: InputBorder.none,
+//                      ),
+//                      style: TextStyle(color: Colors.white, fontSize: 15),
+//                      // keyboardType: TextInputType.emailAddress,
+//                      autocorrect: false,
+//                      validator: (_) {
+//                        return !state.isEmailValid ? 'Invalid Email' : null;
+//                      },
+//                    ),
+//                  ),
+//                  SizedBox(
+//                    height: 10,
+//                  ),
+//                  Container(
+//                    padding: EdgeInsets.symmetric(horizontal: 20,),
+//                    width: _size.width*0.8,
+//                    decoration: BoxDecoration(
+//                      color: Colors.black,
+//                      borderRadius: BorderRadius.circular(29),
+//                    ),
+//                    child:TextFormField(
+//                      controller: _passwordController,
+//                      cursorColor: Colors.white,
+//                      decoration: InputDecoration(
+//                        icon: Icon(Icons.lock,color: Colors.white,
+//                        ),
+//                        labelText: "Password",
+//                        labelStyle: TextStyle(color: Colors.white, fontSize: 15),
+//                        border: InputBorder.none,
+//                      ),
+//                      style: TextStyle(color: Colors.white, fontSize: 15),
+//                      obscureText: true,
+//                      autocorrect: false,
+//                      validator: (_) {
+//                        return !state.isPasswordValid ? 'Invalid Password' : null;
+//                      },
+//                    ),
+//                  ),
+//
+////                  TextFormField(
+////                    controller: _passwordController,
+////                    decoration: InputDecoration(
+////                      icon: Icon(Icons.lock),
+////                      labelText: "Password",
+////                    ),
+////                    obscureText: true,
+////                    autocorrect: false,
+////                    validator: (_) {
+////                      return !state.isPasswordValid ? 'Invalid Password' : null;
+////                    },
+////                  ),
+//                  SizedBox(
+//                    height: 10,
+//                  ),
+//                  RaisedButton(
+//                    shape: RoundedRectangleBorder(
+//                        borderRadius: BorderRadius.circular(18.0), ),
+//                    color: Colors.black,
+//                    highlightColor: Colors.red,
+//                    child: Text("Login",style: TextStyle(color: Colors.white, fontSize: 15),),
+//                    onPressed: () {
+////                      if (isButtonEnabled(state)) 判斷是否空白
+//                      _onFormSubmitted();
+//                    },
+//                  ),
+//                ],
+//              ),
+//            ),
+//          );
         },
       ),
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motobuy/bloc/car_list_bloc/car_list_bloc.dart';
 import 'package:motobuy/repositories/car_repositories.dart';
+import 'package:motobuy/ui/widget/loading.dart';
 
 class HomeView extends StatefulWidget {
   static const routeName = '/homeView';
@@ -65,9 +66,9 @@ class _TestBodyState extends State<TestBody> {
         child: BlocBuilder<CarListBloc, CarListState>(
           builder: (context, state) {
             if (state is CarListInitial) {
-              return CircularProgressIndicator();
+              return Loading();
             } else if (state is LoadingCarList) {
-              return CircularProgressIndicator();
+              return Loading();
             } else if (state is NewCarList) {
               return ListView.builder(
                   itemCount: state.carDetails.data.length,
