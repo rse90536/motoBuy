@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:motobuy/repositories/uset_repositories.dart';
+import 'package:motobuy/repositories/user_repositories.dart';
 import 'package:motobuy/utils/validators.dart';
 
 part 'login_event.dart';
@@ -37,16 +37,22 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     yield LoginState.loading();
     try {
       bool isLogin = await UserRepository.signInWithAccount(email, password);
-      if (isLogin) {
-        bool getUserData = await UserRepository.getUserData();
-        if (getUserData) {
-          yield LoginState.success();
-        } else {
-          yield LoginState.failure();
-        }
-      } else {
+      bool getUserData = await UserRepository.getUserData();
+      if(isLogin&&getUserData){
+        yield LoginState.success();
+      }else{
         yield LoginState.failure();
       }
+//      if (isLogin) {
+//        bool getUserData = await UserRepository.getUserData();
+//        if (getUserData) {
+//          yield LoginState.success();
+//        } else {
+//          yield LoginState.failure();
+//        }
+//      } else {
+//        yield LoginState.failure();
+//      }
     } catch (_) {
       yield LoginState.failure();
     }

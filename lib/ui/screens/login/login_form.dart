@@ -40,20 +40,21 @@ class _LoginFormState extends State<LoginForm> {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.isFailure) {
-          Scaffold.of(context)
-            ..removeCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text('Login Failure'),
-                    Icon(Icons.error),
-                  ],
-                ),
-                backgroundColor: Color(0xffffae88),
-              ),
-            );
+          showToast("Login Failure");
+//          Scaffold.of(context)
+//            ..removeCurrentSnackBar()
+//            ..showSnackBar(
+//              SnackBar(
+//                content: Row(
+//                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                  children: <Widget>[
+//                    Text('Login Failure'),
+//                    Icon(Icons.error),
+//                  ],
+//                ),
+//                backgroundColor: Color(0xffffae88),
+//              ),
+//            );
         }
 
         if (state.isSubmitting) {
@@ -64,33 +65,20 @@ class _LoginFormState extends State<LoginForm> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('Logging In...'),
+                    Text('Logging In...',style: TextStyle(color: Colors.white),),
                     CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     )
                   ],
                 ),
-                backgroundColor: Color(0xffffae88),
+                backgroundColor: Colors.black,
               ),
             );
         }
 
         if (state.isSuccess) {
-          Scaffold.of(context)
-            ..removeCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text('Login success'),
-                    Icon(Icons.error),
-                  ],
-                ),
-                backgroundColor: Color(0xffffae88),
-              ),
-            );
-          debugPrint("state isSuccess");
+          showToast("Login Success");
+
           Future.delayed(Duration(seconds: 1),(){
             Navigator.pushReplacementNamed(
               context,
@@ -298,8 +286,24 @@ class _LoginFormState extends State<LoginForm> {
         },
       ),
     );
-  }
 
+  }
+void showToast(String str){
+  Scaffold.of(context)
+    ..removeCurrentSnackBar()
+    ..showSnackBar(
+      SnackBar(
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text('$str',style: TextStyle(color: Colors.white),),
+            Icon(Icons.error),
+          ],
+        ),
+        backgroundColor: Colors.black,
+      ),
+    );
+}
   @override
   void dispose() {
     _emailController.dispose();

@@ -10,3 +10,4 @@ abstract class CarListEvent extends Equatable {
 class DoFetchEvent extends CarListEvent{
 
 }
+

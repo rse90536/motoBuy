@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:motobuy/model/car_detail.dart';
 import 'package:motobuy/repositories/car_repositories.dart';
+import 'package:motobuy/shared/shared_data.dart';
 
 part 'car_list_event.dart';
 part 'car_list_state.dart';
@@ -19,11 +20,11 @@ class CarListBloc extends Bloc<CarListEvent, CarListState> {
     if(event is DoFetchEvent){
       yield LoadingCarList();
       try{
+        SharedData.regionDataList = await _carRepository.getRegionList();
       var carDetails = await _carRepository.getNewestCarList();
       yield NewCarList(carDetails: carDetails );
       }catch(e){
           yield FailedFetchData(errorMessage: e.toString());
-
       }
     }
   }
