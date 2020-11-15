@@ -47,11 +47,18 @@ class MotorCardWidgetState extends State<MotorCardWidget> {
                 children: [
                   Container(
                     alignment: Alignment.center,
-                    child: Image.network(
-                      'https://www.moto-tp.com/upload/post/${_carDetail.id}/$_imgStr',
+                    child:  FadeInImage.assetNetwork(
                       height: _size.height * 0.3,
-                      fit: BoxFit.contain,
+                      fadeInDuration: Duration(milliseconds: 500),
+                      fadeOutDuration: Duration(milliseconds: 500),
+                      placeholder: 'assets/white.jpg',
+                      image: 'https://www.moto-tp.com/upload/post/${_carDetail.id}/$_imgStr',
                     ),
+                    // Image.network(
+                    //   'https://www.moto-tp.com/upload/post/${_carDetail.id}/$_imgStr',
+                    //   height: _size.height * 0.3,
+                    //   fit: BoxFit.contain,
+                    // ),
                   ),
                   Positioned(
                     left: 0,
